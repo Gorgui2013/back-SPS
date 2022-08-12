@@ -16,6 +16,7 @@ const app = express();
 app.use(cors({origin: '*'}));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json({extended: false}));
+app.use(express.static('public'));
 
 // connecter à la base de données
 console.log('connected in DB...');

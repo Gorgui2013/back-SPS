@@ -16,7 +16,8 @@ module.exports.findOne = async (id) => {
 }
 
 module.exports.insertOne = async (data) => {
-    await Adress.create(data);
+    const result = await Adress.create(data);
+    return result;
 }
 
 module.exports.updateOne = async (id, data) => {

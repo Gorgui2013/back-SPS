@@ -11,11 +11,18 @@ module.exports.findOneById = async (id) => {
     if(valid_id){
         const  result = await Demande.findById(id).populate('client','service','entreprise');
         return result;
+    } else {
+        return null;
     }
 }
 
 module.exports.insertOne = async (data) => {
-    await (await Demande.create(data)).populate('client','service','entreprise');
+    const demande = await Demande.create({...data, etat: 1});
+    if(demande) {
+        return demande.populate('client','service','entreprise');
+    } else {
+        return null;
+    }
 }
 
 module.exports.updateOne = async (id, data) => {
@@ -23,6 +30,8 @@ module.exports.updateOne = async (id, data) => {
     if(valid_id){
         const  result = await Demande.findOneAndUpdate({_id : id}, data, {new: true}).populate('client','service','entreprise');
         return result;
+    } else {
+        return null;
     }
 }
 
@@ -31,5 +40,7 @@ module.exports.deleteOne = async (id) => {
     if(valid_id){
          await Demande.findOneAndDelete()
         return true;
+    } else {
+        return null;
     }
 }

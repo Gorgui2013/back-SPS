@@ -1,4 +1,4 @@
-q  const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true, dropDups: true },
@@ -26,8 +26,9 @@ module.exports.modelClient = modelClient;
 // Demande Schema
 const DemandeSchema = new mongoose.Schema({
       object: { type: String },
-      message: { type: String},
-      dataExecution: { type: Date},
+      message: { type: String },
+      dateExecution: { type: Date },
+      etat: { type: Number, default: 0 },
       client: { type: mongoose.Schema.Types.ObjectId, ref: "client"},
       service: { type: mongoose.Schema.Types.ObjectId, ref: "service"},
       entreprise: { type: mongoose.Schema.Types.ObjectId, ref: "entreprise"},
@@ -48,7 +49,7 @@ module.exports.modelPoint = modelPoint;
 // Adresse Schema
 const AdresseSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    points: { type: mongoose.Schema.Types.ObjectId, ref: 'points' },
+    point: { type: mongoose.Schema.Types.ObjectId, ref: 'points' },
 });
 
 const modelAdress = mongoose.model('adresse', AdresseSchema);
@@ -66,6 +67,7 @@ module.exports.modelSecteur = modelSecteur;
 const ServiceSchema = new mongoose.Schema({
     name: { type: String },
     description: { type: String },
+    image: { type: String, default: '/images/service.png' },
 }, { timestamps: true });
 const modelService = mongoose.model('service', ServiceSchema);
 module.exports.modelService = modelService;
@@ -76,6 +78,8 @@ const EntrepriseSchema = new mongoose.Schema({
     description: { type: String, required: true },
     email: { type: String, required: true, unique:true, dropDups: true },
     phone: { type: String, required: true },
+    cover: { type: String, default: '/images/cover.png' },
+    profil: { type: String, default: '/images/company.webp' },
     user:{ type: mongoose.Schema.Types.ObjectId,ref:'user' },
     secteur:{ type: mongoose.Schema.Types.ObjectId,ref:'secteur' },
     services:[{ type: mongoose.Schema.Types.ObjectId,ref:'service' }],

@@ -2,9 +2,8 @@ module.exports = (app) => {
 	const Ctrl = require('./points.controller');
 
 	app.route('/points')
-		.get(Ctrl.findAll);
+		.post(Ctrl.insertOne);
 
 	app.route('/points/:id')
-		.patch(Ctrl.updateOne)
-		.delete(Ctrl.deleteOne);
+		.get(Ctrl.findOne);
 }

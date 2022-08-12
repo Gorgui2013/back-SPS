@@ -16,11 +16,12 @@ module.exports.findOne = async (id) => {
     else return 'can not find'
 }
 
-module.exports.insert = async (data) => {
-	await Point.create(data);
+module.exports.insertOne = async (data) => {
+	const result = await Point.create(data);
+    return result;
 }
 
-module.exports.update = async  (id, data) => {
+module.exports.updateOne = async  (id, data) => {
     const valid_id = mongoose.Types.ObjectId.isValid(id);
         if(valid_id){
             const result = await Point.findOneAndUpdate({_id : id}, data, {new: true});
@@ -29,7 +30,7 @@ module.exports.update = async  (id, data) => {
 	    else return 'Update not done';
 }
 
-module.exports.delete = async (id) => {
+module.exports.deleteOne = async (id) => {
 	const valid_id = mongoose.Types.ObjectId.isValid(id);
     if(valid_id){
        await Point.findOneAndDelete({_id : id});

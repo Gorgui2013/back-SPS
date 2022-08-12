@@ -1,6 +1,9 @@
 const UsersService = require('../users/user.service');
 const jwt = require('jsonwebtoken');
 const bcrypt = require("bcrypt");
+const User = require ('../model/Shemas').modelUser;
+const Entreprise = require ('../model/Shemas').modelEntreprise;
+const Client = require ('../model/Shemas').modelClient;
 
 module.exports.register = async ({ username, password, role }) => {
     const salt = await bcrypt.genSalt(10);
@@ -24,9 +27,16 @@ module.exports.login = async ({ username, password }) => {
         const validPassword = await bcrypt.compare(password, user.password);
         if (validPassword) {
             user = { ...user.toObject() };
+            let info;
+            if(user.role === 'USER') {
+                info = await Client.find({user: user._id});
+            }
+            if(user.role === 'COMPANY') {
+                info = await Entreprise.find({user: user._id}).populate({path:'adresse', populate: {path: 'point'}}).populate('secteur');
+            }
             delete user.password;
             const token = jwt.sign(user, 'digitalAfricaKey', { expiresIn: 60 * 60 });
-            return { user, token };
+            return { user, token, info};
         } else {
             return null;
         }

@@ -6,17 +6,29 @@ module.exports.findAll = async (req, res) => {
 
 module.exports.findOneById = async (req, res) => {
 	const demande = await DemandeService.findOneById(req.params.id);
-	res.send(demande);
+	if(demande) {
+		res.status(200).send(demande);
+	} else {
+		res.status(404).send({ message: "Not Found" });
+	}
 }
 
 module.exports.insertOne = async (req, res) => {
 	const demande = await DemandeService.insertOne(req.body);
-	res.send(demande);
+	if(demande) {
+		res.status(200).send(demande);
+	} else {
+		res.status(404).send({ message: "Not Found" });
+	}
 }
 
 module.exports.updateOne = async (req, res) => {
-	const demande = await sDemandeService.updateOne(req.params.id, req.body);
-	res.send(demande);
+	const demande = await DemandeService.updateOne(req.params.id, req.body);
+	if(demande) {
+		res.status(200).send(demande);
+	} else {
+		res.status(404).send({ message: "Not Found" });
+	}
 }
 
 module.exports.deleteOne = async (req, res) => {

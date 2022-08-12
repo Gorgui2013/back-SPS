@@ -12,13 +12,14 @@ module.exports.findOneById = async (id) => {
     if(valid_id){
         const  result = await Service.findById(id);
         return result;
+    } else {
+        return null;
     }
 }
 
 module.exports.insertOne = async (data) => {
-    //const service = ["62ec59ed17bd004ddc78632b","62ec59ff17bd004ddc78632e"];
-    data.service = service;
-    await (await Service.create(data));
+    const service = await Service.create(data);
+    return service;
 }
 
 module.exports.updateOne = async (id, data) => {
@@ -26,6 +27,8 @@ module.exports.updateOne = async (id, data) => {
     if(valid_id){
         const  result = await Service.findOneAndUpdate({_id : id}, data, {new: true});
         return result;
+    } else {
+        return null;
     }
 }
 
@@ -34,6 +37,8 @@ module.exports.deleteOne = async (id) => {
     if(valid_id){
          await Service.findOneAndDelete({_id : id})
         return true;
+    } else {
+        return null;
     }
 }
 // les entreprises qui offre un service donné
